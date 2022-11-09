@@ -68,3 +68,35 @@ export const shopsData = [
     }
 ]
 
+export const dashboardData = [
+    {
+        year: '2017',
+        population: 10610000,
+        liveBirths: 114405,
+        deaths: 111443
+    },
+    {
+        year: '2018',
+        population: 10649800,
+        liveBirths: 114036,
+        deaths: 112920
+    },
+    {
+        year: '2019',
+        population: 10693939,
+        liveBirths: 112231,
+        deaths: 112362
+    },
+    {
+        year: '2020',
+        population: 10700155,
+        liveBirths: 110200,
+        deaths: 129289
+    },
+    {
+        year: '2021',
+        population: 10524167,
+        liveBirths: 111793,
+        deaths: 139891
+    },
+]
