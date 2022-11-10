@@ -28,7 +28,7 @@ const DashboardGraph = (props) => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey={props.graphName} fill="#8884d8" />
+                <Bar dataKey={props.graphName} fill={props.graphName === 'deaths' ? '#FF8042' : props.graphName === 'population' ?  '#0088FE' : '#00C49F'}/>
             </BarChart>
         </Paper>
     );

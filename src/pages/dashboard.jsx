@@ -25,18 +25,16 @@ function Dashboard() {
 
     return (
         <Grid sx={styles}>
-            <Box sx={{display: {xl: 'flex', md: 'grid'}, gap: '2%', marginBlock: '20px'}}>
+            <Box sx={{display: {xl: 'flex', lg: 'grid', md: 'grid', xs: 'grid'}, placeItems: 'center', gap: '2%', marginBlock: '20px'}}>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="population"/>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="liveBirths"/>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="deaths"/>
             </Box>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                name="Years"
                 value={numberOfYears}
-                label="From - To years"
                 onChange={handleChange}
-                sx={{marginBlock: '20px', width: '100px'}}
+                sx={{marginBlock: '50px', width: '300px'}}
             >
                 <MenuItem value={1}>1 year</MenuItem>
                 <MenuItem value={2}>1-2 years</MenuItem>
