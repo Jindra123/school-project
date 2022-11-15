@@ -6,13 +6,24 @@ import {dashboardData} from "../data/data";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 
-const styles = (theme) => ({
+const grid = (theme) => ({
     marginInline: '16vw',
     textAlign: 'center',
+    display: 'grid',
+    placeItems: 'center',
     [theme.breakpoints.down('md')]: {
         marginInline: '6vw',
     },
 });
+
+const box = (theme) => ({
+    display: 'grid',
+    gap: '2%',
+    [theme.breakpoints.up('xl')]: {
+        display: 'flex'
+    },
+});
+
 
 
 function Dashboard() {
@@ -24,8 +35,8 @@ function Dashboard() {
     }
 
     return (
-        <Grid sx={styles}>
-            <Box sx={{display: {xl: 'flex', lg: 'grid', md: 'grid', xs: 'grid'}, placeItems: 'center', gap: '2%', marginBlock: '20px'}}>
+        <Grid sx={grid}>
+            <Box sx={box}>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="population"/>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="liveBirths"/>
                 <DashboardGraph data={dashboardData} numberOfYears={numberOfYears} graphName="deaths"/>
