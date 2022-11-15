@@ -100,3 +100,62 @@ export const dashboardData = [
         deaths: 139891
     },
 ]
+
+export const carDealershipData = [
+    {
+        brand: 'Škoda',
+        brandModel: 'Fabia',
+        kilometers: 50000,
+        price: 150000,
+        fuel: 'gas'
+    },
+    {
+        brand: 'Opel',
+        brandModel: 'Crossland',
+        kilometers: 114405,
+        price: 70000,
+        fuel: 'gas'
+    },
+    {
+        brand: 'Tesla',
+        brandModel: 'Model S',
+        kilometers: 86000,
+        price: 799000,
+        fuel: 'electric'
+    },
+    {
+        brand: 'Kia',
+        brandModel: 'Ceed',
+        kilometers: 250000,
+        price: 50000,
+        fuel: 'diesel'
+    },
+    {
+        brand: 'Škoda',
+        brandModel: 'Superb',
+        kilometers: 168000,
+        price: 210000,
+        fuel: 'diesel'
+    },
+    {
+        brand: 'Opel',
+        brandModel: 'Astra',
+        kilometers: 49000,
+        price: 340000,
+        fuel: 'gas'
+    },
+    {
+        brand: 'Tesla',
+        brandModel: 'Model X',
+        kilometers: 44000,
+        price: 1100000,
+        fuel: 'electric'
+    },
+    {
+        brand: 'Kia',
+        brandModel: 'ProCeed',
+        kilometers: 5,
+        price: 864000,
+        fuel: 'gas'
+    },
+]

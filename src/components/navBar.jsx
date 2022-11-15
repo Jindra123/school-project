@@ -24,7 +24,11 @@ const pages = [
     {
         name: 'Dashboard',
         url: '/'
-    }
+    },
+    {
+        name: 'Dealership',
+        url: '/dealership'
+    },
 ];
 
 function ResponsiveAppBar() {
@@ -39,7 +43,7 @@ function ResponsiveAppBar() {
     }
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#ff9800' }}>
+        <AppBar position="static" sx={{ backgroundColor: '#FF8042' }}>
             <Container>
                 <Toolbar disableGutters sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
