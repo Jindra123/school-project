@@ -25,7 +25,7 @@ function Dealership() {
 
     return (
         <Grid sx={grid}>
-            <FilterDealership />
+            <FilterDealership data={carDealershipData}/>
             <Box sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginTop: '3%'}}>
                 {carDealershipData.map((info, id) => {
                     return (

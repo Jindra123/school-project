@@ -13,13 +13,15 @@ import Select from '@mui/material/Select';
 import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider} from "@mui/material";
 import {useState} from "react";
 
-function FilterDealership() {
+function FilterDealership(props) {
     const [open, setOpen] = useState(false);
     const [sliderKilometers, setSliderKilometers] = useState([0, 100000]);
     const [sliderMoney, setSliderMoney] = useState([0, 100000]);
 
     const handleClickOpen = () => {
         setOpen(true);
+        const hello = props.data.filter((data) => data.brand)
+        console.log(hello)
     };
 
     const handleSliderMoneyChange = (event, newValue, activeThumb) => {
@@ -138,6 +140,7 @@ function FilterDealership() {
                                 <FormLabel id="demo-radio-buttons-group-label">Price</FormLabel>
                                 <Slider
                                     getAriaLabel={() => 'Minimum distance'}
+                                    sx={{color: '#FF8042'}}
                                     value={sliderMoney}
                                     min={0}
                                     step={500}
@@ -154,6 +157,7 @@ function FilterDealership() {
                                 <Slider
                                     getAriaLabel={() => 'Minimum distance'}
                                     value={sliderKilometers}
+                                    sx={{color: '#FF8042'}}
                                     min={0}
                                     step={500}
                                     max={100000}
@@ -168,7 +172,6 @@ function FilterDealership() {
                         <FormControl sx={{ mt: 4, minWidth: 260 }}>
                             <FormLabel id="demo-radio-buttons-group-label">Fuel</FormLabel>
                             <RadioGroup
-
                                 defaultValue="gas"
                                 name="radio-buttons-group"
                             >
@@ -180,8 +183,8 @@ function FilterDealership() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-                    <Button variant="contained" onClick={handleClose}>Close</Button>
+                    <Button variant="contained" sx={{backgroundColor: '#00C49F'}} onClick={handleSubmit}>Submit</Button>
+                    <Button variant="contained" sx={{backgroundColor: 'red'}} onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>
