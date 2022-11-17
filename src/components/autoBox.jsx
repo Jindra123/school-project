@@ -13,7 +13,9 @@ const AutoBox = (props) => {
                         sx={{
                             textAlign: 'center',
                             padding: '20px',
-                            boxShadow: `5px 7px 3px ${props.data.brand === 'Škoda' ? '#00C49F' : props.data.brand === 'Tesla' ? '#0088FE' : props.data.brand === 'Kia' ? '#FFBB28' : '#FF8042'}`
+                            marginTop: '20px',
+                            boxShadow: `5px 7px 3px ${props.data.brand === 'Škoda' ? '#00C49F' : props.data.brand === 'Tesla' ? '#0088FE' : props.data.brand === 'Kia' ? '#FFBB28' : '#FF8042'}`,
+                            border: `1px solid ${props.data.brand === 'Škoda' ? '#00C49F' : props.data.brand === 'Tesla' ? '#0088FE' : props.data.brand === 'Kia' ? '#FFBB28' : '#FF8042'}`
                         }}
                     >
                         <Typography variant='h4' sx={{marginBottom: '14px'}}>{props.data.brand}</Typography>

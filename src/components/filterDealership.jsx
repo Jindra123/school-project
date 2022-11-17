@@ -7,18 +7,61 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
+import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider} from "@mui/material";
+import {useState} from "react";
 
 function FilterDealership() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [sliderKilometers, setSliderKilometers] = useState([0, 100000]);
+    const [sliderMoney, setSliderMoney] = useState([0, 100000]);
 
     const handleClickOpen = () => {
         setOpen(true);
     };
+
+    const handleSliderMoneyChange = (event, newValue, activeThumb) => {
+        const minDistance = 10000;
+
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+        if (activeThumb === 0) {
+            setSliderMoney([Math.min(newValue[0], sliderMoney[1] - minDistance), sliderMoney[1]]);
+        } else {
+            setSliderMoney([sliderMoney[0], Math.max(newValue[1], sliderMoney[0] + minDistance)]);
+        }
+    };
+
+    const handleSliderKilometersChange = (event, newValue, activeThumb) => {
+        const minDistance = 10000;
+
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+        if (activeThumb === 0) {
+            setSliderKilometers([Math.min(newValue[0], sliderKilometers[1] - minDistance), sliderKilometers[1]]);
+        } else {
+            setSliderKilometers([sliderKilometers[0], Math.max(newValue[1], sliderKilometers[0] + minDistance)]);
+        }
+    };
+
+    const valueMoneySlider = (value) => {
+        let scaledValue = value;
+
+        scaledValue = scaledValue.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'CZK'
+        });
+
+        return `${scaledValue}`;
+    }
+
+    const valueKilometersSlider = (value) => {
+        return `${value.toLocaleString('en-US')} Km`;
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -46,14 +89,13 @@ function FilterDealership() {
                 Open max-width dialog
             </Button>
             <Dialog
-                maxWidth='500'
                 open={open}
                 onClose={handleClose}
             >
                 <DialogTitle>Filters</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        You can set my maximum width and whether to adapt or not.
+                        Filter by you preference.
                     </DialogContentText>
                     <Box
                         noValidate
@@ -65,7 +107,7 @@ function FilterDealership() {
                             width: 'fit-content',
                         }}
                     >
-                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                        <FormControl sx={{ mt: 2, minWidth: 290 }}>
                             <InputLabel htmlFor="max-width">maxWidth</InputLabel>
                             <Select
                                 autoFocus
@@ -75,19 +117,71 @@ function FilterDealership() {
                                     id: 'max-width',
                                 }}
                             >
-                                <MenuItem value={false}>false</MenuItem>
-                                <MenuItem value="xs">xs</MenuItem>
-                                <MenuItem value="sm">sm</MenuItem>
-                                <MenuItem value="md">md</MenuItem>
-                                <MenuItem value="lg">lg</MenuItem>
                                 <MenuItem value="xl">xl</MenuItem>
                             </Select>
+                        </FormControl>
+                        <FormControl sx={{ mt: 2, minWidth: 360 }}>
+                            <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                            <Select
+                                autoFocus
+                                label="maxWidth"
+                                inputProps={{
+                                    name: 'max-width',
+                                    id: 'max-width',
+                                }}
+                            >
+                                <MenuItem value="xl">xl</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Box sx={{display: 'grid', placeItems: 'center', width: 360}}>
+                            <FormControl sx={{ mt: 2, width: 260 }}>
+                                <FormLabel id="demo-radio-buttons-group-label">Price</FormLabel>
+                                <Slider
+                                    getAriaLabel={() => 'Minimum distance'}
+                                    value={sliderMoney}
+                                    min={0}
+                                    step={500}
+                                    max={1000000}
+                                    onChange={handleSliderMoneyChange}
+                                    getAriaValueText={valueMoneySlider}
+                                    valueLabelFormat={valueMoneySlider}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                />
+                            </FormControl>
+                            <FormControl sx={{ mt: 2, width: 260 }}>
+                                <FormLabel id="demo-radio-buttons-group-label">Kilometers</FormLabel>
+                                <Slider
+                                    getAriaLabel={() => 'Minimum distance'}
+                                    value={sliderKilometers}
+                                    min={0}
+                                    step={500}
+                                    max={100000}
+                                    onChange={handleSliderKilometersChange}
+                                    getAriaValueText={valueKilometersSlider}
+                                    valueLabelFormat={valueKilometersSlider}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                />
+                            </FormControl>
+                        </Box>
+                        <FormControl sx={{ mt: 4, minWidth: 260 }}>
+                            <FormLabel id="demo-radio-buttons-group-label">Fuel</FormLabel>
+                            <RadioGroup
+
+                                defaultValue="gas"
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel value="gas" control={<Radio />} label="Gas" />
+                                <FormControlLabel value="diesel" control={<Radio />} label="Diesel" />
+                                <FormControlLabel value="electric" control={<Radio />} label="Electric" />
+                            </RadioGroup>
                         </FormControl>
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSubmit}>Submit</Button>
-                    <Button onClick={handleClose}>Close</Button>
+                    <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+                    <Button variant="contained" onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>
