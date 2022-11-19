@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
-import SvgIcon from '@mui/material/SvgIcon';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
 function FilterDealership(props) {
     const [open, setOpen] = useState(false);
@@ -127,10 +127,15 @@ function FilterDealership(props) {
         setFuel("")
     };
 
+    const cancelFilters = () => {
+        setFiltersActive(false)
+        props.filterUpdate(props.data)
+    }
+
     const handleSubmit = () => {
         const finalArray = props.data.filter((item) => {
             if (brand !== "" && model !== "" && fuel !== "") {
-                setFiltersActive(true)
+
                 return (
                     item.brand === brand &&
                     item.brandModel === model &&
@@ -139,16 +144,14 @@ function FilterDealership(props) {
                     item.fuel === fuel
                 )
             } else if (brand !== "") {
-                setFiltersActive(true)
                 return item.brand === brand
             } else if (model !== "") {
-                setFiltersActive(true)
                 return item.brandModel === model
             } else if (fuel !== "") {
-                setFiltersActive(true)
                 return item.fuel === fuel
             }
         })
+        setFiltersActive(true)
         props.filterUpdate(finalArray)
         setOpen(false);
     };
@@ -171,18 +174,20 @@ function FilterDealership(props) {
                 Filter cars
             </Button>
             <Typography
-                variant="subtitle1"
+                variant="subtitle2"
                 sx={{
                     color: '#b0bec5',
                     display: filtersActive ? 'flex' : 'none',
                     marginTop: '10px',
-                    '&:hov-er': {
+                    '&:hover': {
                         color: 'red',
                         cursor: 'pointer'
                     }
                 }}
+                onClick={cancelFilters}
             >
-                Hello
+                <DeleteForeverOutlinedIcon />
+                Cancel filters
             </Typography>
             <Dialog
                 open={open}
