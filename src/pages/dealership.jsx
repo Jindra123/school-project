@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Grid, Select} from "@mui/material";
+import {Grid} from "@mui/material";
 import {carDealershipData} from "../data/data";
 
 import AutoBox from "../components/autoBox";
@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 const grid = (theme) => ({
     marginInline: '16vw',
     textAlign: 'center',
-    marginTop: '5%',
+    marginTop: '30px',
     display: 'grid',
     alignItems: 'center',
     placeItems: 'center',

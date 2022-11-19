@@ -55,13 +55,14 @@ function FilterDealership(props) {
     }, [maxKilometers, maxMoney])
 
     useEffect(() => {
+        let arr = []
         props.data.forEach((item) => {
-            setModelBrandFilter(
-                modelBrandFilter.filter(pom => item.brandModel === pom)
-            );
+            if (item.brand === brand) {
+                arr.push(item.brandModel)
+            }
         })
-        console.log(modelBrandFilter)
-    }, [brand])
+        setModelBrandFilter(arr)
+    }, [brand, props.data])
 
     const handleBrandChange = (e) => {
         setBrand(e.target.value);
@@ -135,7 +136,6 @@ function FilterDealership(props) {
     const handleSubmit = () => {
         const finalArray = props.data.filter((item) => {
             if (brand !== "" && model !== "" && fuel !== "") {
-
                 return (
                     item.brand === brand &&
                     item.brandModel === model &&
