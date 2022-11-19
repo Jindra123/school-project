@@ -22,12 +22,17 @@ const grid = (theme) => ({
 
 
 function Dealership() {
+    const [cards, setCards] = useState(carDealershipData)
+
+    const filterUpdate = (filterUpdateData) => {
+        setCards(filterUpdateData)
+    }
 
     return (
         <Grid sx={grid}>
-            <FilterDealership data={carDealershipData}/>
+            <FilterDealership data={carDealershipData} filterUpdate={filterUpdate}/>
             <Box sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginTop: '3%'}}>
-                {carDealershipData.map((info, id) => {
+                {cards.map((info, id) => {
                     return (
                         <AutoBox data={info} key={id} />
                     )

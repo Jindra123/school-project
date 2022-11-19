@@ -10,8 +10,9 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider} from "@mui/material";
+import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
+import SvgIcon from '@mui/material/SvgIcon';
 
 function FilterDealership(props) {
     const [open, setOpen] = useState(false);
@@ -20,6 +21,7 @@ function FilterDealership(props) {
     const [brand, setBrand] = useState("");
     const [model, setModel] = useState("");
     const [fuel, setFuel] = useState("");
+    const [filtersActive, setFiltersActive] = useState(false);
     const [modelBrandFilter, setModelBrandFilter] = useState([]);
 
     let brandsFilter = [];
@@ -127,15 +129,27 @@ function FilterDealership(props) {
 
     const handleSubmit = () => {
         const finalArray = props.data.filter((item) => {
-            return (
-                item.brand === brand || brand === "" &&
-                item.brandModel === model || model === "" &&
-                item.price > sliderMoney[0] && item.price < sliderMoney[1] &&
-                item.kilometers > sliderKilometers[0] && item.kilometers < sliderKilometers[1] &&
-                item.fuel === fuel || fuel === ""
-            )
+            if (brand !== "" && model !== "" && fuel !== "") {
+                setFiltersActive(true)
+                return (
+                    item.brand === brand &&
+                    item.brandModel === model &&
+                    item.price > sliderMoney[0] && item.price < sliderMoney[1] &&
+                    item.kilometers > sliderKilometers[0] && item.kilometers < sliderKilometers[1] &&
+                    item.fuel === fuel
+                )
+            } else if (brand !== "") {
+                setFiltersActive(true)
+                return item.brand === brand
+            } else if (model !== "") {
+                setFiltersActive(true)
+                return item.brandModel === model
+            } else if (fuel !== "") {
+                setFiltersActive(true)
+                return item.fuel === fuel
+            }
         })
-        console.log(finalArray)
+        props.filterUpdate(finalArray)
         setOpen(false);
     };
 
@@ -156,6 +170,20 @@ function FilterDealership(props) {
             >
                 Filter cars
             </Button>
+            <Typography
+                variant="subtitle1"
+                sx={{
+                    color: '#b0bec5',
+                    display: filtersActive ? 'flex' : 'none',
+                    marginTop: '10px',
+                    '&:hov-er': {
+                        color: 'red',
+                        cursor: 'pointer'
+                    }
+                }}
+            >
+                Hello
+            </Typography>
             <Dialog
                 open={open}
                 onClose={handleClose}
