@@ -11,17 +11,70 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {FormControlLabel, FormLabel, Radio, RadioGroup, Slider} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function FilterDealership(props) {
     const [open, setOpen] = useState(false);
     const [sliderKilometers, setSliderKilometers] = useState([0, 100000]);
     const [sliderMoney, setSliderMoney] = useState([0, 100000]);
+    const [brand, setBrand] = useState("");
+    const [model, setModel] = useState("");
+    const [fuel, setFuel] = useState("");
+    const [modelBrandFilter, setModelBrandFilter] = useState([]);
+
+    let brandsFilter = [];
+    let fuelFilter = [];
+    let maxMoney;
+    let arrMoney = [];
+    let maxKilometers;
+    let arrKilometers = [];
+
+
+    props.data.forEach((item) => {
+        arrKilometers.push(item.kilometers)
+        arrMoney.push(item.price)
+        if (!brandsFilter.includes(item.brand)) {
+            brandsFilter.push(item.brand)
+        }
+        if (!modelBrandFilter.includes(item.brandModel)) {
+            modelBrandFilter.push(item.brandModel)
+        }
+        if (!fuelFilter.includes(item.fuel)) {
+            fuelFilter.push(item.fuel)
+        }
+    })
+
+    maxMoney = Math.max.apply(0, arrMoney)
+    maxKilometers = Math.max.apply(0, arrKilometers)
+
+    useEffect(() => {
+        setSliderKilometers([0, maxKilometers])
+        setSliderMoney([0, maxMoney])
+    }, [maxKilometers, maxMoney])
+
+    useEffect(() => {
+        props.data.forEach((item) => {
+            setModelBrandFilter(
+                modelBrandFilter.filter(pom => item.brandModel === pom)
+            );
+        })
+        console.log(modelBrandFilter)
+    }, [brand])
+
+    const handleBrandChange = (e) => {
+        setBrand(e.target.value);
+    };
+
+    const handleModelChange = (e) => {
+        setModel(e.target.value);
+    };
+
+    const handleFuelChange = (e) => {
+        setFuel(e.target.value)
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
-        const hello = props.data.filter((data) => data.brand)
-        console.log(hello)
     };
 
     const handleSliderMoneyChange = (event, newValue, activeThumb) => {
@@ -67,9 +120,22 @@ function FilterDealership(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setBrand("")
+        setModel("")
+        setFuel("")
     };
 
     const handleSubmit = () => {
+        const finalArray = props.data.filter((item) => {
+            return (
+                item.brand === brand || brand === "" &&
+                item.brandModel === model || model === "" &&
+                item.price > sliderMoney[0] && item.price < sliderMoney[1] &&
+                item.kilometers > sliderKilometers[0] && item.kilometers < sliderKilometers[1] &&
+                item.fuel === fuel || fuel === ""
+            )
+        })
+        console.log(finalArray)
         setOpen(false);
     };
 
@@ -88,7 +154,7 @@ function FilterDealership(props) {
                 }}
                 onClick={handleClickOpen}
             >
-                Open max-width dialog
+                Filter cars
             </Button>
             <Dialog
                 open={open}
@@ -110,29 +176,31 @@ function FilterDealership(props) {
                         }}
                     >
                         <FormControl sx={{ mt: 2, minWidth: 290 }}>
-                            <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                            <InputLabel htmlFor="max-width">Car brand</InputLabel>
                             <Select
-                                autoFocus
-                                label="maxWidth"
-                                inputProps={{
-                                    name: 'max-width',
-                                    id: 'max-width',
-                                }}
+                                label="Choose brand"
+                                value={brand}
+                                onChange={(e) => handleBrandChange(e)}
                             >
-                                <MenuItem value="xl">xl</MenuItem>
+                                {brandsFilter.map((item) => {
+                                    return (
+                                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                                    )
+                                })}
                             </Select>
                         </FormControl>
                         <FormControl sx={{ mt: 2, minWidth: 360 }}>
-                            <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                            <InputLabel htmlFor="max-width">Car model</InputLabel>
                             <Select
-                                autoFocus
-                                label="maxWidth"
-                                inputProps={{
-                                    name: 'max-width',
-                                    id: 'max-width',
-                                }}
+                                label="Choose model"
+                                value={model}
+                                onChange={(e) => handleModelChange(e)}
                             >
-                                <MenuItem value="xl">xl</MenuItem>
+                                {modelBrandFilter.map((item) => {
+                                    return (
+                                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                                    )
+                                })}
                             </Select>
                         </FormControl>
                         <Box sx={{display: 'grid', placeItems: 'center', width: 360}}>
@@ -144,7 +212,7 @@ function FilterDealership(props) {
                                     value={sliderMoney}
                                     min={0}
                                     step={500}
-                                    max={1000000}
+                                    max={maxMoney}
                                     onChange={handleSliderMoneyChange}
                                     getAriaValueText={valueMoneySlider}
                                     valueLabelFormat={valueMoneySlider}
@@ -160,7 +228,7 @@ function FilterDealership(props) {
                                     sx={{color: '#FF8042'}}
                                     min={0}
                                     step={500}
-                                    max={100000}
+                                    max={maxKilometers}
                                     onChange={handleSliderKilometersChange}
                                     getAriaValueText={valueKilometersSlider}
                                     valueLabelFormat={valueKilometersSlider}
@@ -172,12 +240,15 @@ function FilterDealership(props) {
                         <FormControl sx={{ mt: 4, minWidth: 260 }}>
                             <FormLabel id="demo-radio-buttons-group-label">Fuel</FormLabel>
                             <RadioGroup
-                                defaultValue="gas"
+                                value={fuel}
+                                onChange={handleFuelChange}
                                 name="radio-buttons-group"
                             >
-                                <FormControlLabel value="gas" control={<Radio />} label="Gas" />
-                                <FormControlLabel value="diesel" control={<Radio />} label="Diesel" />
-                                <FormControlLabel value="electric" control={<Radio />} label="Electric" />
+                                {fuelFilter.map((item) => {
+                                    return (
+                                        <FormControlLabel key={item} value={item} control={<Radio />} label={item.charAt(0).toUpperCase() + item.slice(1)} />
+                                    )
+                                })}
                             </RadioGroup>
                         </FormControl>
                     </Box>

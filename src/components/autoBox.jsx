@@ -20,8 +20,8 @@ const AutoBox = (props) => {
                     >
                         <Typography variant='h4' sx={{marginBottom: '14px'}}>{props.data.brand}</Typography>
                         <Typography variant='h5' sx={{paddingBottom: '14px'}}>{props.data.brandModel}</Typography>
-                        <Typography variant='h6' sx={{paddingBottom: '14px'}}>{props.data.kilometers}</Typography>
-                        <Typography variant='h6' sx={{paddingBottom: '14px'}}>{props.data.price}</Typography>
+                        <Typography variant='h6' sx={{paddingBottom: '14px'}}>{props.data.kilometers.toLocaleString('en-US')} Km</Typography>
+                        <Typography variant='h6' sx={{paddingBottom: '14px'}}>{props.data.price.toLocaleString('en-US')} Kč</Typography>
                         <Typography variant='h6' sx={{paddingBottom: '14px'}}>{props.data.fuel[0].toUpperCase() + props.data.fuel.substring(1)}</Typography>
                     </Paper>
                 </Grid>
