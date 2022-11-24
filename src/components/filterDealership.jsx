@@ -22,7 +22,6 @@ function FilterDealership(props) {
     const [model, setModel] = useState("");
     const [fuel, setFuel] = useState("");
     const [filtersActive, setFiltersActive] = useState(false);
-    const [modelBrandFilter, setModelBrandFilter] = useState([]);
 
     let brandsFilter = [];
     let fuelFilter = [];
@@ -38,9 +37,6 @@ function FilterDealership(props) {
         if (!brandsFilter.includes(item.brand)) {
             brandsFilter.push(item.brand)
         }
-        if (!modelBrandFilter.includes(item.brandModel)) {
-            modelBrandFilter.push(item.brandModel)
-        }
         if (!fuelFilter.includes(item.fuel)) {
             fuelFilter.push(item.fuel)
         }
@@ -54,15 +50,6 @@ function FilterDealership(props) {
         setSliderMoney([0, maxMoney])
     }, [maxKilometers, maxMoney])
 
-    useEffect(() => {
-        let arr = []
-        props.data.forEach((item) => {
-            if (item.brand === brand) {
-                arr.push(item.brandModel)
-            }
-        })
-        setModelBrandFilter(arr)
-    }, [brand, props.data])
 
     const handleBrandChange = (e) => {
         setBrand(e.target.value);
@@ -128,27 +115,55 @@ function FilterDealership(props) {
         setFuel("")
     };
 
+    const modelsFunction = (arrayOfModels) => {
+        let arr = []
+        arrayOfModels.forEach((item) => {
+            if (brand === "") {
+                arr.push(item.brandModel)
+            } else if (item.brand === brand) {
+                arr.push(item.brandModel)
+            }
+        })
+        return arr
+    }
+
     const cancelFilters = () => {
         setFiltersActive(false)
         props.filterUpdate(props.data)
     }
 
     const handleSubmit = () => {
-        const finalArray = props.data.filter((item) => {
-            if (brand !== "" && model !== "" && fuel !== "") {
+        let finalArray = props.data.filter((item) => {
+            if (brand !== "") {
                 return (
-                    item.brand === brand &&
-                    item.brandModel === model &&
-                    item.price > sliderMoney[0] && item.price < sliderMoney[1] &&
-                    item.kilometers > sliderKilometers[0] && item.kilometers < sliderKilometers[1] &&
+                    item.brand === brand
+                )
+            } else {
+                return true
+            }
+        })
+        finalArray = finalArray.filter((item) => {
+            if (model !== "") {
+                return (
+                    item.brandModel === model
+                )
+            } else {
+                return true
+            }
+        })
+        finalArray = finalArray.filter((item) => {
+            return (
+                item.price >= sliderMoney[0] && item.price <= sliderMoney[1] &&
+                item.kilometers >= sliderKilometers[0] && item.kilometers <= sliderKilometers[1]
+            )
+        })
+        finalArray = finalArray.filter((item) => {
+            if (fuel !== "") {
+                return (
                     item.fuel === fuel
                 )
-            } else if (brand !== "") {
-                return item.brand === brand
-            } else if (model !== "") {
-                return item.brandModel === model
-            } else if (fuel !== "") {
-                return item.fuel === fuel
+            } else {
+                return true
             }
         })
         setFiltersActive(true)
@@ -229,7 +244,7 @@ function FilterDealership(props) {
                                 value={model}
                                 onChange={(e) => handleModelChange(e)}
                             >
-                                {modelBrandFilter.map((item) => {
+                                {modelsFunction(props.data).map((item) => {
                                     return (
                                         <MenuItem key={item} value={item}>{item}</MenuItem>
                                     )
