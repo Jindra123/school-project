@@ -159,3 +159,22 @@ export const carDealershipData = [
         fuel: 'gas'
     },
 ]
+
+export const colors = [
+    {
+        value: '#00C49F',
+        name: 'Green'
+    },
+    {
+        value: '#0088FE',
+        name: 'Blue'
+    },
+    {
+        value: '#FFBB28',
+        name: 'Yellow'
+    },
+    {
+        value: '#FFA500',
+        name: 'Orange'
+    }
+]

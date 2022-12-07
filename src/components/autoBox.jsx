@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Paper, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {ColorSchemaContext} from "../pages/color";
 
 
 const AutoBox = (props) => {
+    const {valueColor, setValueColor} = useContext(ColorSchemaContext)
+
     return (
         <React.Fragment>
             <Grid item xs={12}>

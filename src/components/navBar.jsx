@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
+import {ColorSchemaContext} from "../pages/color";
 
 const pages = [
     {
@@ -29,6 +30,10 @@ const pages = [
         name: 'Dealership',
         url: '/dealership'
     },
+    {
+        name: 'Color',
+        url: '/color'
+    },
 ];
 
 function ResponsiveAppBar() {
@@ -41,6 +46,8 @@ function ResponsiveAppBar() {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     }
+
+    const {valueColor, setValueColor} = useContext(ColorSchemaContext)
 
     return (
         <AppBar position="static" sx={{ backgroundColor: '#FF8042' }}>
@@ -84,6 +91,7 @@ function ResponsiveAppBar() {
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', justifyContent: 'center' }}>
+                        <Box sx={{width: 80, height: 50, backgroundColor: valueColor, marginRight: 7}}/>
                         {pages.map((page) => (
                             <Link style={{ textDecoration: 'none' }} to={page.url} key={page.name}>
                                 <Button
