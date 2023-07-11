@@ -16,6 +16,7 @@ function App() {
     useEffect(() => {
         document.body.style.background = valueColor;
     });
+
     return (
         <BrowserRouter>
             <ColorSchemaContext.Provider value={{valueColor, setValueColor}}>
